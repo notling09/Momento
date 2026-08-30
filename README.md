@@ -20,7 +20,7 @@ nicht. Dieses Repository ist die Umsetzung genau dieses Konzepts.
 | Rolle | Personen |
 |---|---|
 | Idee & Konzept | Sara Alina Dörring, Djellza Imeraj, Blerta Zejnaj, Dalila Barroso Carvalho |
-| Entwicklung | Nilton Barroso |
+| Entwicklung | Nilton Barroso Carvalho |
 
 Die Namen erscheinen auch in der App selbst unter **Menü → Über Momento**.
 
@@ -140,7 +140,7 @@ fremden Audiodateien nötig.
 flutter test
 ```
 
-45 Tests in drei Gruppen:
+51 Tests in drei Gruppen:
 
 - [`test/memory_search_test.dart`](test/memory_search_test.dart) – die Suche:
   findet sie eine Erinnerung über den Ort, über einen Oberbegriff, der nirgends
@@ -209,6 +209,11 @@ dafür überall und ist die sichere Wahl, wenn man nicht wählen lassen möchte.
 > Hinweis: Der Release-Build ist derzeit mit dem Debug-Schlüssel signiert.
 > Für eine Veröffentlichung im Play Store wäre ein eigener Signaturschlüssel
 > nötig; zum Weitergeben der APK genügt das so.
+
+### Website
+
+Die Downloadseite liegt in [`website/`](website) – statisches HTML, kein Build.
+Anleitung zum Ansehen und Veröffentlichen: [website/README.md](website/README.md).
 
 ### Web bauen
 

@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Momento – Deine App für Erinnerungen und besondere Momente</title>
+<meta name="description" content="Momento hält nicht nur Bilder fest, sondern auch Düfte und Geräusche. Kostenlos für Android herunterladen.">
+<meta name="theme-color" content="#F7A3BE">
+<link rel="icon" href="brand/icon.png">
+<link rel="apple-touch-icon" href="brand/icon.png">
+
+<!-- Zum Teilen in Chats und sozialen Netzwerken.
+     Nach dem ersten Deploy hier die echte Adresse eintragen, z. B.
+     https://momento-app.vercel.app/brand/icon.png -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Momento – Dein Leben. Deine Erinnerungen.">
+<meta property="og:description" content="Eine App, die nicht nur Bilder festhält, sondern auch Düfte und Geräusche.">
+<meta property="og:image" content="brand/icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@400;500;600;700&display=swap">
+
+<style>
+  :root {
+    /* Die Farben stammen direkt aus der App (lib/core/theme/momento_colors.dart) */
+    --peach:   #FFC59B;
+    --blush:   #F7A3BE;
+    --rose:    #F08CB4;
+    --orchid:  #D79BE0;
+    --violet:  #B98BE0;
+    --plum:    #7A54B0;
+
+    --paper:        #FFF9FB;
+    --surface:      #FFFFFF;
+    --surface-soft: #FDF1F6;
+    --ink:          #3D3247;
+    --ink-soft:     #6B5F77;
+    --line:         #F1DFE8;
+    --shadow:       0 1px 2px rgba(154,110,134,.05), 0 14px 34px rgba(154,110,134,.10);
+
+    --gradient: linear-gradient(135deg, var(--peach) 0%, var(--blush) 55%, var(--orchid) 100%);
+    --gradient-action: linear-gradient(135deg, var(--blush), var(--violet));
+
+    --measure: 62ch;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:        #17121D;
+      --surface:      #221B2B;
+      --surface-soft: #2C2338;
+      --ink:          #F3EAF6;
+      --ink-soft:     #B6A7C2;
+      --line:         #3A2F49;
+      --plum:         #C8A0EA;
+      --shadow:       0 1px 2px rgba(0,0,0,.3), 0 14px 34px rgba(0,0,0,.28);
+      color-scheme: dark;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Quicksand, "Trebuchet MS", system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    font-family: "Baloo 2", Quicksand, system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  p { margin: 0; }
+  /* height:auto ist wichtig: sonst nimmt der Browser die Hoehe aus dem
+     height-Attribut und die Bilder werden verzerrt lang. */
+  img { max-width: 100%; height: auto; display: block; }
+
+  a { color: var(--plum); }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--plum);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  .wrap {
+    width: min(100% - 2.5rem, 1080px);
+    margin-inline: auto;
+  }
+
+  section { padding: clamp(3.5rem, 9vw, 6.5rem) 0; }
+
+  .eyebrow {
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--plum);
+    margin-bottom: .9rem;
+  }
+
+  /* ---------------- Kopfbereich ---------------- */
+
+  .hero {
+    position: relative;
+    background: var(--gradient);
+    padding: clamp(2rem, 5vw, 3rem) 0 0;
+    overflow: hidden;
+  }
+
+  /* Die geschwungene Unterkante aus der App */
+  .hero::after {
+    content: "";
+    position: absolute;
+    left: -5%;
+    right: -5%;
+    bottom: -1px;
+    height: clamp(50px, 8vw, 110px);
+    background: var(--paper);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: 1fr;
+    align-items: center;
+    padding-bottom: clamp(4rem, 9vw, 7rem);
+  }
+
+  @media (min-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr 300px; }
+  }
+
+  /* Das Telefon im Kopfbereich zeigt nur den oberen Teil und laeuft nach
+     unten aus dem Bild - sonst wird der Kopfbereich unnoetig hoch. */
+  .hero .phone {
+    width: min(100%, 300px);
+    margin-inline: auto;
+  }
+
+  .hero .phone-window {
+    height: clamp(300px, 46vw, 440px);
+    overflow: hidden;
+    border-radius: 26px;
+  }
+
+  .hero .phone-window img {
+    object-fit: cover;
+    object-position: top center;
+    height: 100%;
+    border-radius: 26px;
+  }
+
+  .hero-logo {
+    width: clamp(230px, 34vw, 320px);
+    filter: brightness(0) invert(1);
+    margin-bottom: 1.3rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.9rem, 5vw, 3rem);
+    color: #fff;
+    max-width: 15ch;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 14px rgba(120, 70, 100, .18);
+  }
+
+  .hero p.claim {
+    color: #fff;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    font-weight: 600;
+    max-width: 46ch;
+    margin-bottom: 2rem;
+    text-shadow: 0 1px 10px rgba(120, 70, 100, .16);
+  }
+
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .9rem 1.1rem;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 1rem 1.7rem;
+    border-radius: 999px;
+    font-family: Quicksand, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-primary {
+    background: #fff;
+    color: var(--plum);
+    box-shadow: 0 8px 26px rgba(120, 70, 100, .22);
+  }
+
+  .btn-ghost {
+    background: rgba(255,255,255,.26);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,.7);
+  }
+
+  .btn-solid {
+    background: var(--gradient-action);
+    color: #fff;
+    box-shadow: 0 8px 26px rgba(240, 140, 180, .34);
+  }
+
+  .hero-note {
+    color: rgba(255,255,255,.92);
+    font-size: .87rem;
+    margin-top: 1rem;
+  }
+
+  /* ---------------- Telefonrahmen ---------------- */
+
+  .phone {
+    position: relative;
+    border-radius: 34px;
+    padding: 9px;
+    background: linear-gradient(160deg, #4A3B52, #2C2333);
+    box-shadow: 0 24px 60px rgba(90, 55, 80, .32);
+  }
+
+  .phone img {
+    border-radius: 26px;
+    width: 100%;
+  }
+
+  .hero .phone { rotate: 2deg; }
+
+  /* ---------------- Funktionen ---------------- */
+
+  .section-head { max-width: var(--measure); margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .section-head h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: .7rem; }
+  .section-head p { color: var(--ink-soft); }
+
+  .features {
+    display: grid;
+    gap: 1.1rem;
+    grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
+  }
+
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.5rem 1.5rem 1.6rem;
+    box-shadow: var(--shadow);
+  }
+
+  .feature .badge {
+    width: 46px;
+    height: 46px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+  }
+
+  .feature h3 { font-size: 1.16rem; margin-bottom: .4rem; }
+  .feature p { color: var(--ink-soft); font-size: .95rem; }
+
+  /* ---------------- Galerie ---------------- */
+
+  .gallery-strip {
+    display: flex;
+    gap: 1.4rem;
+    overflow-x: auto;
+    padding: .5rem .25rem 2rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .shot {
+    flex: 0 0 clamp(212px, 42vw, 262px);
+    scroll-snap-align: center;
+  }
+
+  .shot figcaption {
+    margin-top: .9rem;
+    text-align: center;
+    font-size: .87rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- Download ---------------- */
+
+  .download { background: var(--surface-soft); }
+
+  .download-grid {
+    display: grid;
+    gap: 1.4rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 860px) {
+    .download-grid { grid-template-columns: 1.15fr 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 1.7rem;
+    box-shadow: var(--shadow);
+  }
+
+  .card h3 { font-size: 1.2rem; margin-bottom: .9rem; }
+
+  .variants { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; gap: .55rem; }
+
+  .variants a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .8rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: .93rem;
+    font-weight: 600;
+    background: var(--paper);
+  }
+
+  .variants a:hover { border-color: var(--rose); }
+  .variants span.size { color: var(--ink-soft); font-weight: 500; font-size: .85rem; white-space: nowrap; }
+
+  .steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 1rem; }
+
+  .steps li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: .9rem;
+    font-size: .95rem;
+  }
+
+  .steps li::before {
+    content: counter(s);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--gradient-action);
+    color: #fff;
+    font-weight: 700;
+    font-size: .85rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .hint {
+    margin-top: 1.3rem;
+    padding: .95rem 1.1rem;
+    background: var(--surface-soft);
+    border-radius: 14px;
+    font-size: .88rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---------------- Geschichte ---------------- */
+
+  .story-grid {
+    display: grid;
+    gap: clamp(1.8rem, 4vw, 3rem);
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .story-grid { grid-template-columns: 1fr 300px; }
+  }
+
+  .story p + p { margin-top: 1rem; }
+  .story p { color: var(--ink-soft); max-width: var(--measure); }
+  .story strong { color: var(--ink); font-weight: 700; }
+
+  .credits { margin-top: 2rem; display: grid; gap: 1rem; }
+
+  .credit-block h3 {
+    font-size: .76rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--plum);
+    font-family: Quicksand, sans-serif;
+    font-weight: 700;
+    margin-bottom: .6rem;
+  }
+
+  .names { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .45rem .95rem .45rem .45rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  .name i {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--gradient-action);
+    color: #fff;
+    font-style: normal;
+    font-size: .68rem;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+    font-family: "Baloo 2", sans-serif;
+  }
+
+  .concept {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: .9rem;
+    box-shadow: var(--shadow);
+  }
+
+  .concept img { border-radius: 15px; }
+  .concept figcaption { font-size: .82rem; color: var(--ink-soft); padding: .8rem .4rem .2rem; text-align: center; }
+
+  /* ---------------- Fuss ---------------- */
+
+  footer {
+    background: var(--surface-soft);
+    border-top: 1px solid var(--line);
+    padding: 3rem 0 3.5rem;
+    font-size: .9rem;
+    color: var(--ink-soft);
+  }
+
+  .foot-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem 2.5rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .foot-brand { display: flex; align-items: center; gap: .9rem; }
+  .foot-brand img { width: 44px; border-radius: 12px; }
+  .foot-brand b { font-family: "Baloo 2", sans-serif; font-size: 1.1rem; color: var(--ink); display: block; }
+
+  .foot-links { display: flex; flex-wrap: wrap; gap: 1.4rem; }
+  .foot-links a { text-decoration: none; font-weight: 600; }
+  .foot-links a:hover { text-decoration: underline; }
+
+  .foot-note { margin-top: 2rem; font-size: .82rem; line-height: 1.6; max-width: 70ch; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .btn:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== KOPF ==================== -->
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <img class="hero-logo" src="brand/logo.png" alt="Momento">
+      <h1>Erinnerungen, die man wieder erleben kann</h1>
+      <p class="claim">
+        Momento hält nicht nur fest, <em>wie</em> ein Moment aussah – sondern auch,
+        wonach er roch und wie er klang. Ein Bild, ein Ort, ein Duft, eine
+        Tonaufnahme: So bleibt ein Augenblick wirklich.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/notling09/Momento/releases/download/v1.0.0/app-arm64-v8a-release.apk">
+          ↓ Für Android laden
+        </a>
+        <a class="btn btn-ghost" href="#screens">Screenshots ansehen</a>
+      </div>
+      <p class="hero-note">Kostenlos · 19,7 MB · Android 6.0 oder neuer · keine Anmeldung im Netz nötig</p>
+    </div>
+
+    <figure class="phone" style="margin:0">
+      <div class="phone-window">
+        <img src="screens/start.png" alt="Die Startseite von Momento mit einem Flashback vom Vorjahr" width="780" height="1688" loading="eager">
+      </div>
+    </figure>
+  </div>
+</header>
+
+<!-- ==================== FUNKTIONEN ==================== -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Was Momento kann</p>
+      <h2>Sechs Dinge, die eine Foto-App nicht kann</h2>
+      <p>Jede Erinnerung besteht aus mehr als einem Bild – und genau das macht sie später wieder lebendig.</p>
+    </div>
+
+    <div class="features">
+      <article class="feature">
+        <div class="badge" style="background:#FFE1EC">💜</div>
+        <h3>Flashbacks</h3>
+        <p>Was hast du an diesem Tag vor einem Jahr erlebt? Momento zeigt es dir von selbst, sobald du die App öffnest.</p>
+      </article>
+
+      <article class="feature">
+        <div class="badge" style="background:#F3E4FB">🌊</div>
+        <h3>Düfte festhalten</h3>
+        <p>Seebrise, Sonnencreme, Lagerfeuer, Grossmutters Wohnung: 16 Düfte zur Auswahl, mit Intensitätsregler – oder in eigenen Worten.</p>
+      </article>
+
+      <article class="feature">
+        <div class="badge" style="background:#FFE9D6">🎙️</div>
+        <h3>Geräusche aufnehmen</h3>
+        <p>Nimm das Wellenrauschen wirklich auf. Die Aufnahme gehört zur Erinnerung und lässt sich jederzeit wieder abspielen.</p>
+      </article>
+
+      <article class="feature">
+        <div class="badge" style="background:#FFE1EC">🔍</div>
+        <h3>Suchen wie im Kopf</h3>
+        <p>Beschreibe die Erinnerung, statt sie zu benennen. «Abend am Wasser» findet den Seeabend – auch wenn dort nirgends «Wasser» steht.</p>
+      </article>
+
+      <article class="feature">
+        <div class="badge" style="background:#F3E4FB">📁</div>
+        <h3>Alben</h3>
+        <p>Fasse zusammen, was zusammengehört: eine Reise, ein Sommer, ein Mensch. Mit Bildern, Düften und Geräuschen.</p>
+      </article>
+
+      <article class="feature">
+        <div class="badge" style="background:#E2F1EA">🔒</div>
+        <h3>Bleibt bei dir</h3>
+        <p>Alles wird auf deinem Gerät gespeichert. Kein Konto im Netz, kein Server, funktioniert auch im Flugmodus.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SCREENSHOTS ==================== -->
+<section id="screens" style="padding-bottom:clamp(2rem,5vw,4rem)">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Ein Blick hinein</p>
+      <h2>So sieht Momento aus</h2>
+      <p>Hell und dunkel, auf Deutsch und Englisch. Seitlich wischen für mehr.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="gallery-strip">
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/start.png" alt="Startseite mit Flashback-Karte" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Startseite mit Flashbacks</figcaption>
+      </figure>
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/erinnerung.png" alt="Eine Erinnerung mit Duft und Tonaufnahme" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Duft und Geräusch</figcaption>
+      </figure>
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/erfassen.png" alt="Formular zum Erfassen einer Erinnerung" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Moment festhalten</figcaption>
+      </figure>
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/suche.png" alt="Suchergebnisse mit Begründung" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Suche mit Begründung</figcaption>
+      </figure>
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/alben.png" alt="Übersicht der Alben" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Alben</figcaption>
+      </figure>
+      <figure class="shot" style="margin:0">
+        <div class="phone"><img src="screens/start-dunkel.png" alt="Die Startseite im Dark-Mode" width="780" height="1688" loading="lazy"></div>
+        <figcaption>Dark-Mode</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DOWNLOAD ==================== -->
+<section class="download" id="download">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Herunterladen</p>
+      <h2>Momento auf dein Handy holen</h2>
+      <p>Momento ist nicht im Play Store, sondern wird direkt hier heruntergeladen. Das dauert eine Minute.</p>
+    </div>
+
+    <div class="download-grid">
+      <div class="card">
+        <h3>Android</h3>
+        <p style="color:var(--ink-soft);font-size:.95rem">
+          Fast jedes heutige Handy braucht die erste Datei. Die anderen zwei
+          sind für ältere Geräte und Emulatoren.
+        </p>
+        <ul class="variants">
+          <li>
+            <a href="https://github.com/notling09/Momento/releases/download/v1.0.0/app-arm64-v8a-release.apk">
+              <span>⭐ Empfohlen – alle neueren Handys</span>
+              <span class="size">19,7 MB</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/notling09/Momento/releases/download/v1.0.0/app-armeabi-v7a-release.apk">
+              <span>Ältere 32-Bit-Geräte</span>
+              <span class="size">17,4 MB</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/notling09/Momento/releases/download/v1.0.0/app-release.apk">
+              <span>Passt überall (grösser)</span>
+              <span class="size">54,1 MB</span>
+            </a>
+          </li>
+        </ul>
+        <div class="hint">
+          <strong>iPhone?</strong> Der Code für iOS ist fertig, aber Apple verlangt
+          zum Erstellen einer iPhone-App einen Mac. Sobald einer zur Verfügung
+          steht, gibt es Momento auch dort.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>So installierst du sie</h3>
+        <!-- Der Text jedes Schrittes braucht einen eigenen Container: sonst
+             wird jedes Inline-Element zu einer eigenen Gitterzelle. -->
+        <ol class="steps">
+          <li><span>Tippe oben auf die empfohlene Datei. Der Browser fragt, ob du sie behalten willst – ja.</span></li>
+          <li><span>Öffne die heruntergeladene Datei. Android fragt einmalig, ob dein Browser Apps installieren darf. Erlauben.</span></li>
+          <li><span>Falls eine Warnung «unbekannte App» erscheint: auf <em>Trotzdem installieren</em> tippen. Das kommt bei jeder App ausserhalb des Play Stores.</span></li>
+          <li><span>Momento öffnen, kurze Einführung durchklicken, Konto anlegen – Mail und Passwort bleiben auf dem Gerät.</span></li>
+        </ol>
+        <div class="hint">
+          Beim ersten Start sind einige Beispiel-Erinnerungen da, damit du sofort
+          siehst, wie sich die App anfühlt. Du kannst sie in den Einstellungen
+          mit einem Tipp entfernen.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== GESCHICHTE ==================== -->
+<section>
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story">
+        <p class="eyebrow">Die Geschichte</p>
+        <h2 style="font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:1.2rem">
+          Momento gab es zuerst nur auf Papier
+        </h2>
+
+        <p>
+          Im Rahmen der Berufsmaturität schrieben vier Schülerinnen einen
+          Businessplan für ein erfundenes Unternehmen. Sie erfanden eine App,
+          die Erinnerungen samt Düften und Geräuschen festhält, entwarfen das
+          Logo, wählten die Farben, drehten ein Werbevideo und rechneten den
+          Markt durch.
+        </p>
+        <p>
+          <strong>Nur die App selbst gab es nie.</strong> Genau die ist hier
+          entstanden: Farben, Logo, Aufbau und Funktionen stammen eins zu eins
+          aus diesem Businessplan.
+        </p>
+        <p>
+          An zwei Stellen weicht sie bewusst ab. Das im Konzept vorgesehene
+          Ausweisfoto bei der Registrierung wurde gestrichen – für eine
+          Erinnerungs-App gibt es keinen Grund, einen Ausweis zu verlangen.
+          Und Düfte werden beschrieben statt gemessen, weil kein Smartphone
+          einen Geruchssensor besitzt. Geräusche dagegen werden wirklich
+          aufgenommen.
+        </p>
+
+        <div class="credits">
+          <div class="credit-block">
+            <h3>Idee &amp; Konzept</h3>
+            <div class="names">
+              <span class="name"><i>SD</i>Sara Alina Dörring</span>
+              <span class="name"><i>DI</i>Djellza Imeraj</span>
+              <span class="name"><i>BZ</i>Blerta Zejnaj</span>
+              <span class="name"><i>DC</i>Dalila Barroso Carvalho</span>
+            </div>
+          </div>
+          <div class="credit-block">
+            <h3>Entwicklung</h3>
+            <div class="names">
+              <span class="name"><i>NB</i>Nilton Barroso Carvalho</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <figure class="concept" style="margin:0">
+        <img src="brand/konzept.jpg" alt="Das ursprüngliche Konzeptbild der Startseite aus dem Businessplan" loading="lazy">
+        <figcaption>Abbildung 1 aus dem Businessplan – der Entwurf, nach dem gebaut wurde</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FUSS ==================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="brand/icon.png" alt="">
+        <span>
+          <b>Momento</b>
+          Dein Leben. Deine Erinnerungen.
+        </span>
+      </div>
+      <nav class="foot-links">
+        <a href="#download">Herunterladen</a>
+        <a href="#screens">Screenshots</a>
+        <a href="https://github.com/notling09/Momento">Quellcode auf GitHub</a>
+      </nav>
+    </div>
+
+    <p class="foot-note">
+      Momento ist mit Flutter gebaut und läuft aus einem Quellcode auf Android,
+      iOS und im Browser. Alle Daten bleiben auf dem Gerät; die App braucht
+      kein Internet. Logo, Farbwelt und Funktionsumfang stammen aus dem
+      Businessplan «Momento AG» (GBMc, 10. Mai 2026). Version 1.0.0.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
