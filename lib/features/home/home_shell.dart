@@ -197,7 +197,14 @@ class _CenterSyncButton extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          GestureDetector(
+          Semantics(
+            button: true,
+            selected: selected,
+            // Die Zahl am Knopf wird sonst nicht vorgelesen.
+            label: pending == 0
+                ? label
+                : '$label, ${AppTexts.of(context).syncPending(pending)}',
+            child: GestureDetector(
             onTap: onTap,
             child: Stack(
               clipBehavior: Clip.none,
@@ -248,15 +255,19 @@ class _CenterSyncButton extends StatelessWidget {
                   ),
               ],
             ),
+            ),
           ),
           const SizedBox(height: 5),
-          Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: selected ? MomentoColors.rose : theme.colorScheme.onSurfaceVariant,
-              fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+          // Der Text darunter wiederholt nur, was oben schon vorgelesen wird.
+          ExcludeSemantics(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: selected ? MomentoColors.rose : theme.colorScheme.onSurfaceVariant,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+              ),
             ),
           ),
         ],

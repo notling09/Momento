@@ -51,18 +51,23 @@ class MemoryDetailScreen extends StatelessWidget {
             stretch: true,
             backgroundColor: theme.colorScheme.surface,
             surfaceTintColor: Colors.transparent,
-            leading: const _RoundIconButton(icon: Icons.arrow_back_rounded),
+            leading: _RoundIconButton(
+              icon: Icons.arrow_back_rounded,
+              label: t.actionBack,
+            ),
             actions: [
               _RoundIconButton(
                 icon: memory.isFavorite
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
+                label: t.memoryFavorite,
                 color: memory.isFavorite ? MomentoColors.rose : null,
                 onTap: () => controller.toggleFavorite(memory.id),
               ),
               const SizedBox(width: 6),
               _RoundIconButton(
                 icon: Icons.edit_rounded,
+                label: t.actionEdit,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (_) => MemoryEditorScreen(memoryId: memory.id),
@@ -72,6 +77,7 @@ class MemoryDetailScreen extends StatelessWidget {
               const SizedBox(width: 6),
               _RoundIconButton(
                 icon: Icons.delete_outline_rounded,
+                label: t.actionDelete,
                 onTap: () => _confirmDelete(context, memory),
               ),
               const SizedBox(width: 10),
@@ -250,24 +256,40 @@ class MemoryDetailScreen extends StatelessWidget {
 }
 
 class _RoundIconButton extends StatelessWidget {
-  const _RoundIconButton({required this.icon, this.onTap, this.color});
+  const _RoundIconButton({
+    required this.icon,
+    required this.label,
+    this.onTap,
+    this.color,
+  });
 
   final IconData icon;
+
+  /// Diese Knoepfe zeigen nur ein Symbol - die Beschriftung braucht es fuer
+  /// den Tooltip und fuer Screenreader.
+  final String label;
   final VoidCallback? onTap;
   final Color? color;
 
   @override
   Widget build(BuildContext context) => Center(
-        child: Material(
-          color: Colors.black.withValues(alpha: 0.34),
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: onTap ?? () => Navigator.of(context).maybePop(),
-            child: SizedBox(
-              width: 38,
-              height: 38,
-              child: Icon(icon, size: 20, color: color ?? Colors.white),
+        child: Tooltip(
+          message: label,
+          child: Material(
+            color: Colors.black.withValues(alpha: 0.34),
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: onTap ?? () => Navigator.of(context).maybePop(),
+              child: Semantics(
+                button: true,
+                label: label,
+                child: SizedBox(
+                  width: 38,
+                  height: 38,
+                  child: Icon(icon, size: 20, color: color ?? Colors.white),
+                ),
+              ),
             ),
           ),
         ),

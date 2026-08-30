@@ -154,10 +154,15 @@ class _Header extends StatelessWidget {
           children: [
             Row(
               children: [
-                _GlassButton(icon: Icons.menu_rounded, onTap: onOpenMenu),
+                _GlassButton(
+                  icon: Icons.menu_rounded,
+                  label: t.menuOpen,
+                  onTap: onOpenMenu,
+                ),
                 const Spacer(),
                 _GlassButton(
                   icon: Icons.add_rounded,
+                  label: t.newMemory,
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => const MemoryEditorScreen(),
@@ -212,22 +217,37 @@ class _CurvedBottomClipper extends CustomClipper<Path> {
 }
 
 class _GlassButton extends StatelessWidget {
-  const _GlassButton({required this.icon, required this.onTap});
+  const _GlassButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   final IconData icon;
+
+  /// Wird vorgelesen und als Tooltip angezeigt - der Knopf zeigt sonst nur
+  /// ein Symbol.
+  final String label;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Material(
-        color: Colors.white.withValues(alpha: 0.30),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: SizedBox(
-            width: 44,
-            height: 44,
-            child: Icon(icon, color: Colors.white, size: 23),
+  Widget build(BuildContext context) => Tooltip(
+        message: label,
+        child: Material(
+          color: Colors.white.withValues(alpha: 0.30),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Semantics(
+              button: true,
+              label: label,
+              child: SizedBox(
+                width: 44,
+                height: 44,
+                child: Icon(icon, color: Colors.white, size: 23),
+              ),
+            ),
           ),
         ),
       );

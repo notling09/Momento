@@ -464,19 +464,24 @@ class _CoverPickerState extends State<_CoverPicker> {
               itemBuilder: (context, index) {
                 final option = CoverScene.values[index];
                 final selected = option == scene;
-                return GestureDetector(
-                  onTap: () => onSceneChanged(option),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: _itemWidth,
-                    padding: EdgeInsets.all(selected ? 3 : 0),
-                    decoration: BoxDecoration(
-                      color: selected ? MomentoColors.rose : Colors.transparent,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: SceneCover(scene: option),
+                return Semantics(
+                  button: true,
+                  selected: selected,
+                  label: t.sceneOption(index + 1),
+                  child: GestureDetector(
+                    onTap: () => onSceneChanged(option),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: _itemWidth,
+                      padding: EdgeInsets.all(selected ? 3 : 0),
+                      decoration: BoxDecoration(
+                        color: selected ? MomentoColors.rose : Colors.transparent,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SceneCover(scene: option),
+                      ),
                     ),
                   ),
                 );

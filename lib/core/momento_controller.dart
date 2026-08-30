@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../data/local/backup_service.dart';
 import '../data/local/demo_data.dart';
 import '../data/local/local_database.dart';
 import '../data/local/media_store.dart';
@@ -341,6 +342,30 @@ class MomentoController extends ChangeNotifier {
     await _persistSettings(_settings.copyWith(lastSync: DateTime.now()));
     await _refresh();
     return done;
+  }
+
+  // --- Sicherung ---------------------------------------------------------
+
+  BackupService get _backup => BackupService(
+        memories: _memoryRepository,
+        albums: _albumRepository,
+        media: _mediaStore,
+      );
+
+  /// Packt alle Erinnerungen samt Bildern und Tonaufnahmen in ein ZIP-Archiv.
+  Future<Uint8List> createBackup() => _backup.create();
+
+  /// Liest eine Sicherung wieder ein.
+  Future<BackupResult> restoreBackup(
+    Uint8List zipBytes, {
+    bool replaceExisting = false,
+  }) async {
+    final result = await _backup.restore(
+      zipBytes,
+      replaceExisting: replaceExisting,
+    );
+    await _refresh();
+    return result;
   }
 
   // --- Beispiel-Daten und Aufraeumen -------------------------------------

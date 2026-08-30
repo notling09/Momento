@@ -18,6 +18,7 @@ class MomentoWordmark extends StatelessWidget {
       height: height,
       fit: BoxFit.contain,
       filterQuality: FilterQuality.medium,
+      semanticLabel: 'Momento',
     );
 
     if (tint == null) return image;

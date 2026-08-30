@@ -1,15 +1,117 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/l10n/app_texts.dart';
 import '../../core/momento_controller.dart';
 import '../../core/theme/momento_colors.dart';
+import '../../data/local/backup_service.dart';
 import '../../widgets/common.dart';
 import 'about_screen.dart';
 
-/// Einstellungen: Light-/Dark-Mode, Sprache und die Beispiel-Daten
+/// Einstellungen: Light-/Dark-Mode, Sprache, Beispieldaten und Sicherung
 /// (Businessplan, Kapitel 7.2).
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _busy = false;
+
+  // --- Sicherung ---------------------------------------------------------
+
+  Future<void> _createBackup() async {
+    final t = AppTexts.of(context);
+    final controller = AppScope.read(context);
+    final messenger = ScaffoldMessenger.of(context);
+
+    if (controller.memories.isEmpty) {
+      messenger.showSnackBar(SnackBar(content: Text(t.backupNothingToSave)));
+      return;
+    }
+
+    setState(() => _busy = true);
+    try {
+      final bytes = await controller.createBackup();
+      // Öffnet den "Speichern unter"-Dialog des Geräts: die Person wählt
+      // selbst, wo die Sicherung landet.
+      final saved = await FilePicker.saveFile(
+        fileName: BackupService.fileNameFor(DateTime.now()),
+        bytes: bytes,
+        mimeType: 'application/zip',
+      );
+      if (saved != null) {
+        messenger.showSnackBar(SnackBar(content: Text(t.backupSaved)));
+      }
+    } catch (_) {
+      messenger.showSnackBar(SnackBar(content: Text(t.backupFailed)));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  Future<void> _restoreBackup() async {
+    final t = AppTexts.of(context);
+    final controller = AppScope.read(context);
+    final messenger = ScaffoldMessenger.of(context);
+
+    final replace = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(t.backupRestore),
+        content: Text(t.backupModeQuestion),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(null),
+            child: Text(t.actionCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(
+              t.backupModeReplace,
+              style: const TextStyle(color: MomentoColors.danger),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(t.backupModeMerge),
+          ),
+        ],
+      ),
+    );
+    if (replace == null || !mounted) return;
+
+    setState(() => _busy = true);
+    try {
+      final picked = await FilePicker.pickFile();
+      if (picked == null) return;
+      final bytes = await picked.readAsBytes();
+
+      final result = await controller.restoreBackup(
+        bytes,
+        replaceExisting: replace,
+      );
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            [
+              t.backupRestored(result.memoriesAdded, result.albumsAdded),
+              if (result.memoriesSkipped > 0)
+                t.backupSkipped(result.memoriesSkipped),
+            ].join(' · '),
+          ),
+        ),
+      );
+    } on InvalidBackupException {
+      messenger.showSnackBar(SnackBar(content: Text(t.backupInvalid)));
+    } catch (_) {
+      messenger.showSnackBar(SnackBar(content: Text(t.backupFailed)));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +200,36 @@ class SettingsScreen extends StatelessWidget {
                           : null,
                       icon: const Icon(Icons.cleaning_services_rounded, size: 19),
                       label: Text(t.demoDataRemove),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+
+          // --- Sicherung ----------------------------------------------
+          _Group(
+            title: t.backupTitle,
+            icon: Icons.shield_outlined,
+            children: [
+              Text(t.backupBody, style: theme.textTheme.bodySmall),
+              const SizedBox(height: 14),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _busy ? null : _createBackup,
+                      icon: const Icon(Icons.ios_share_rounded, size: 19),
+                      label: Text(_busy ? t.backupWorking : t.backupCreate),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _busy ? null : _restoreBackup,
+                      icon: const Icon(Icons.settings_backup_restore_rounded, size: 19),
+                      label: Text(t.backupRestore),
                     ),
                   ),
                 ],

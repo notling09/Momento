@@ -106,7 +106,12 @@ class _SoundPlayerBarState extends State<SoundPlayerBar> {
       ),
       child: Row(
         children: [
-          _PlayButton(playing: _playing, onTap: _toggle, size: widget.compact ? 38 : 44),
+          _PlayButton(
+            playing: _playing,
+            onTap: _toggle,
+            size: widget.compact ? 38 : 44,
+            label: _playing ? t.memorySoundPause : t.memorySoundPlay,
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -159,26 +164,39 @@ class _SoundPlayerBarState extends State<SoundPlayerBar> {
 }
 
 class _PlayButton extends StatelessWidget {
-  const _PlayButton({required this.playing, required this.onTap, required this.size});
+  const _PlayButton({
+    required this.playing,
+    required this.onTap,
+    required this.size,
+    required this.label,
+  });
 
   final bool playing;
   final VoidCallback onTap;
   final double size;
+  final String label;
 
   @override
-  Widget build(BuildContext context) => Material(
-        color: MomentoColors.soundAccent,
-        shape: const CircleBorder(),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: SizedBox(
-            width: size,
-            height: size,
-            child: Icon(
-              playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
-              color: Colors.white,
-              size: size * 0.52,
+  Widget build(BuildContext context) => Tooltip(
+        message: label,
+        child: Material(
+          color: MomentoColors.soundAccent,
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: Semantics(
+              button: true,
+              label: label,
+              child: SizedBox(
+                width: size,
+                height: size,
+                child: Icon(
+                  playing ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: size * 0.52,
+                ),
+              ),
             ),
           ),
         ),

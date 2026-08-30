@@ -49,6 +49,8 @@ Die Namen erscheinen auch in der App selbst unter **Menü → Über Momento**.
   dort, bis sie verarbeitet sind.
 - **Light- und Dark-Mode**, **Deutsch und Englisch** umschaltbar.
 - **Beispiel-Erinnerungen** beim ersten Start, jederzeit entfernbar.
+- **Sicherung**: alle Erinnerungen samt Bildern und Tonaufnahmen als ZIP-Datei
+  herausschreiben und wieder einlesen (dazufügen oder alles ersetzen).
 
 ---
 
@@ -142,7 +144,7 @@ fremden Audiodateien nötig.
 flutter test
 ```
 
-51 Tests in drei Gruppen:
+58 Tests in vier Gruppen:
 
 - [`test/memory_search_test.dart`](test/memory_search_test.dart) – die Suche:
   findet sie eine Erinnerung über den Ort, über einen Oberbegriff, der nirgends
@@ -150,6 +152,9 @@ flutter test
   Tippfehler und über Sprachgrenzen hinweg?
 - [`test/storage_test.dart`](test/storage_test.dart) – Konten, Passwort-Hashing,
   Speichern über Neustarts hinweg und die Warteschlange des Sync-Knopfes.
+- [`test/backup_test.dart`](test/backup_test.dart) – die Sicherung: Überstehen
+  Erinnerungen, Alben und Tonaufnahmen den Weg aus der App heraus und wieder
+  hinein? Wird eine fremde Datei abgelehnt?
 - [`test/screens_test.dart`](test/screens_test.dart) – rendert jeden Bildschirm
   und legt ihn als Bild unter [`test/goldens/`](test/goldens) ab:
 

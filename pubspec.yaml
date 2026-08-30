@@ -24,6 +24,10 @@ dependencies:
   # Symbolschrift fuer die iOS-typischen Icons in Uebergaengen
   cupertino_icons: ^1.0.8
 
+  # Sicherung: ZIP-Datei erzeugen, speichern und wieder einlesen
+  archive: ^4.0.2
+  file_picker: ^12.1.2
+
   # Hilfsmittel
   uuid: ^4.5.1
   intl: ^0.20.2

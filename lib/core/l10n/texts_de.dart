@@ -405,7 +405,7 @@ class TextsDe extends AppTexts {
   @override
   String get syncTitle => 'Synchronisieren';
   @override
-  String get syncSubtitle => 'Neue Erinnerungen werden hier verarbeitet und gesichert.';
+  String get syncSubtitle => 'Neue Erinnerungen werden hier verarbeitet und auf deinem Gerät abgelegt.';
   @override
   String get syncNow => 'Jetzt synchronisieren';
   @override
@@ -413,7 +413,7 @@ class TextsDe extends AppTexts {
   @override
   String get syncAllDone => 'Alles synchronisiert';
   @override
-  String get syncAllDoneBody => 'Jede Erinnerung ist verarbeitet und sicher abgelegt.';
+  String get syncAllDoneBody => 'Jede Erinnerung ist verarbeitet und auf deinem Gerät abgelegt.';
   @override
   String syncPending(int count) =>
       count == 1 ? '1 Erinnerung wartet' : '$count Erinnerungen warten';
@@ -488,6 +488,54 @@ class TextsDe extends AppTexts {
   String get demoDataRemoved => 'Beispiele entfernt';
   @override
   String get demoDataLoaded => 'Beispiele geladen';
+  @override
+  String get menuOpen => 'Menü öffnen';
+  @override
+  String sceneOption(int number) => 'Motiv $number';
+  @override
+  String get selectedState => 'ausgewählt';
+  @override
+  String get notSelectedState => 'nicht ausgewählt';
+
+  @override
+  String get backupTitle => 'Sicherung';
+  @override
+  String get backupBody => 'Erstelle eine Datei mit allen Erinnerungen, Bildern und Tonaufnahmen. Damit holst du sie nach einer Neuinstallation zurück oder überträgst sie auf ein anderes Handy.';
+  @override
+  String get backupCreate => 'Sicherung erstellen';
+  @override
+  String get backupRestore => 'Sicherung einlesen';
+  @override
+  String get backupWorking => 'Einen Moment …';
+  @override
+  String get backupSaved => 'Sicherung gespeichert';
+  @override
+  String get backupNothingToSave => 'Es gibt noch nichts zu sichern.';
+  @override
+  String get backupModeQuestion => 'Wie sollen die Erinnerungen aus der Datei eingefügt werden?';
+  @override
+  String get backupModeMerge => 'Dazufügen';
+  @override
+  String get backupModeMergeHint => 'Was schon da ist, bleibt. Nur Unbekanntes kommt dazu.';
+  @override
+  String get backupModeReplace => 'Alles ersetzen';
+  @override
+  String get backupModeReplaceHint => 'Alles Bisherige wird gelöscht und durch die Datei ersetzt.';
+  @override
+  String get backupInvalid => 'Das ist keine Momento-Sicherung.';
+  @override
+  String get backupFailed => 'Das hat nicht geklappt. Versuch es nochmals.';
+  @override
+  String backupRestored(int memories, int albums) {
+    final m = memories == 1 ? '1 Erinnerung' : '$memories Erinnerungen';
+    final a = albums == 1 ? '1 Album' : '$albums Alben';
+    return '$m und $a eingelesen';
+  }
+
+  @override
+  String backupSkipped(int count) => count == 1
+      ? '1 Erinnerung war schon vorhanden'
+      : '$count Erinnerungen waren schon vorhanden';
   @override
   String get dangerZone => 'Achtung';
   @override

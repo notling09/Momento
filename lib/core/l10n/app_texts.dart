@@ -276,6 +276,30 @@ abstract class AppTexts {
   String get demoDataRemove;
   String get demoDataRemoved;
   String get demoDataLoaded;
+  // --- Bedienhilfen (Beschriftungen fuer Screenreader) ---------------------
+  String get menuOpen;
+  String sceneOption(int number);
+  String get selectedState;
+  String get notSelectedState;
+
+  // --- Sicherung ----------------------------------------------------------
+  String get backupTitle;
+  String get backupBody;
+  String get backupCreate;
+  String get backupRestore;
+  String get backupWorking;
+  String get backupSaved;
+  String get backupNothingToSave;
+  String get backupModeQuestion;
+  String get backupModeMerge;
+  String get backupModeMergeHint;
+  String get backupModeReplace;
+  String get backupModeReplaceHint;
+  String get backupInvalid;
+  String get backupFailed;
+  String backupRestored(int memories, int albums);
+  String backupSkipped(int count);
+
   String get dangerZone;
   String get deleteAllTitle;
   String get deleteAllBody;

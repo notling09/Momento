@@ -145,16 +145,22 @@ class _AlbumEditorScreenState extends State<AlbumEditorScreen> {
               for (final memory in memories)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: MemoryTile(
-                    memory: memory,
-                    onTap: () => setState(() {
-                      if (!_selected.remove(memory.id)) {
-                        _selected.add(memory.id);
-                      }
-                      _showSelectionError = false;
-                    }),
-                    trailing: _SelectionMark(
-                      selected: _selected.contains(memory.id),
+                  child: Semantics(
+                    button: true,
+                    selected: _selected.contains(memory.id),
+                    label: '${memory.title}, '
+                        '${_selected.contains(memory.id) ? t.selectedState : t.notSelectedState}',
+                    child: MemoryTile(
+                      memory: memory,
+                      onTap: () => setState(() {
+                        if (!_selected.remove(memory.id)) {
+                          _selected.add(memory.id);
+                        }
+                        _showSelectionError = false;
+                      }),
+                      trailing: _SelectionMark(
+                        selected: _selected.contains(memory.id),
+                      ),
                     ),
                   ),
                 ),

@@ -373,19 +373,24 @@ class MemoryTile extends StatelessWidget {
                     ),
                     if (trailing != null) trailing!,
                     if (trailing == null && onFavorite != null)
-                      GestureDetector(
-                        onTap: onFavorite,
-                        behavior: HitTestBehavior.opaque,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 6, bottom: 4),
-                          child: Icon(
-                            memory.isFavorite
-                                ? Icons.favorite_rounded
-                                : Icons.favorite_border_rounded,
-                            size: 19,
-                            color: memory.isFavorite
-                                ? MomentoColors.rose
-                                : theme.colorScheme.onSurfaceVariant,
+                      Semantics(
+                        button: true,
+                        toggled: memory.isFavorite,
+                        label: t.memoryFavorite,
+                        child: GestureDetector(
+                          onTap: onFavorite,
+                          behavior: HitTestBehavior.opaque,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 6, bottom: 4),
+                            child: Icon(
+                              memory.isFavorite
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              size: 19,
+                              color: memory.isFavorite
+                                  ? MomentoColors.rose
+                                  : theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ),

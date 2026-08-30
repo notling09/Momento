@@ -402,7 +402,7 @@ class TextsEn extends AppTexts {
   @override
   String get syncTitle => 'Sync';
   @override
-  String get syncSubtitle => 'New memories are processed and secured here.';
+  String get syncSubtitle => 'New memories are processed and stored on your device here.';
   @override
   String get syncNow => 'Sync now';
   @override
@@ -410,7 +410,7 @@ class TextsEn extends AppTexts {
   @override
   String get syncAllDone => 'Everything is synced';
   @override
-  String get syncAllDoneBody => 'Every memory has been processed and stored safely.';
+  String get syncAllDoneBody => 'Every memory has been processed and stored on your device.';
   @override
   String syncPending(int count) =>
       count == 1 ? '1 memory is waiting' : '$count memories are waiting';
@@ -484,6 +484,54 @@ class TextsEn extends AppTexts {
   String get demoDataRemoved => 'Examples removed';
   @override
   String get demoDataLoaded => 'Examples loaded';
+  @override
+  String get menuOpen => 'Open menu';
+  @override
+  String sceneOption(int number) => 'Artwork $number';
+  @override
+  String get selectedState => 'selected';
+  @override
+  String get notSelectedState => 'not selected';
+
+  @override
+  String get backupTitle => 'Backup';
+  @override
+  String get backupBody => 'Create one file holding every memory, picture and recording. Use it to get everything back after reinstalling, or to move it to another phone.';
+  @override
+  String get backupCreate => 'Create backup';
+  @override
+  String get backupRestore => 'Load backup';
+  @override
+  String get backupWorking => 'One moment …';
+  @override
+  String get backupSaved => 'Backup saved';
+  @override
+  String get backupNothingToSave => 'There is nothing to back up yet.';
+  @override
+  String get backupModeQuestion => 'How should the memories from the file be added?';
+  @override
+  String get backupModeMerge => 'Add to what is here';
+  @override
+  String get backupModeMergeHint => 'Everything you have stays. Only unknown memories are added.';
+  @override
+  String get backupModeReplace => 'Replace everything';
+  @override
+  String get backupModeReplaceHint => 'Everything you have now is deleted and replaced by the file.';
+  @override
+  String get backupInvalid => 'That is not a Momento backup.';
+  @override
+  String get backupFailed => 'That did not work. Please try again.';
+  @override
+  String backupRestored(int memories, int albums) {
+    final m = memories == 1 ? '1 memory' : '$memories memories';
+    final a = albums == 1 ? '1 album' : '$albums albums';
+    return 'Loaded $m and $a';
+  }
+
+  @override
+  String backupSkipped(int count) => count == 1
+      ? '1 memory was already there'
+      : '$count memories were already there';
   @override
   String get dangerZone => 'Careful';
   @override
