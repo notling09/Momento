@@ -80,8 +80,10 @@ Bei einer neuen Version: neues Release mit neuem Tag anlegen und in
 `index.html` die drei Links von `v1.0.0` auf den neuen Tag ändern
 (dreimal suchen und ersetzen).
 
-## Nach dem ersten Deploy
+## Veröffentlicht unter
 
-In `index.html` steht bei den `og:`-Angaben ein Hinweis: Dort die echte
-Adresse eintragen, damit beim Teilen in WhatsApp oder Instagram eine
-Vorschau mit dem App-Icon erscheint.
+https://momento-eta-six.vercel.app
+
+Die Adresse steht in `index.html` bei den `og:`-Angaben. Wenn du der Seite
+später eine eigene Domain gibst, dort an vier Stellen anpassen (canonical,
+og:url, og:image, twitter:image).

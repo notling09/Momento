@@ -1,10 +1,12 @@
 // Winziger Webserver ohne Abhaengigkeiten, um die Website lokal anzusehen.
-//   node tool/serve_website.js       -> http://127.0.0.1:5050
+//   node tool/serve_website.js               -> Website auf http://127.0.0.1:5050
+//   node tool/serve_website.js build/web     -> beliebiger Ordner
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const root = path.join(__dirname, '..', 'website');
+// Ordner als Argument, Vorgabe ist die Website.
+const root = path.resolve(process.argv[2] || path.join(__dirname, '..', 'website'));
 const port = process.env.PORT || 5050;
 const types = {
   '.html': 'text/html; charset=utf-8',
