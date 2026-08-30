@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Markenfarben von Momento, siehe lib/core/theme/momento_colors.dart -->
+    <color name="momento_background">#FFF9FB</color>
+    <color name="momento_background_dark">#17121D</color>
+</resources>

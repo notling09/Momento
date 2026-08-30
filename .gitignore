@@ -1,0 +1,36 @@
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+.packages
+
+# Ausgabe fehlgeschlagener Golden-Tests (nur lokal interessant)
+test/failures/
+
+# Werkzeug- und Editor-Konfiguration
+.claude/
+.idea/
+.vscode/
+*.iml
+
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+*.jks
+*.keystore
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# System
+.DS_Store
+Thumbs.db
+
+# Hinweis: pubspec.lock wird bewusst mitversioniert.
+# Bei einer Anwendung (im Gegensatz zu einer Bibliothek) sorgt sie dafür,
+# dass ein Build auf jedem Rechner dieselben Paketversionen verwendet.

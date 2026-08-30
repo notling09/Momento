@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Startbildschirm: warmer Markenhintergrund mit dem Momento-Zeichen, bis
+     Flutter das erste Bild zeichnet. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/momento_background" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/momento_splash" />
+    </item>
+</layer-list>
