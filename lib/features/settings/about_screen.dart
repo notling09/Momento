@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_info.dart';
 import '../../core/l10n/app_texts.dart';
 import '../../core/theme/momento_colors.dart';
 import '../../core/theme/momento_theme.dart';
@@ -160,7 +161,7 @@ class AboutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 22),
                 Center(
-                  child: Text('${t.version} 1.0.0',
+                  child: Text('${t.version} $momentoVersion',
                       style: theme.textTheme.labelSmall),
                 ),
               ],

@@ -64,11 +64,11 @@ npx vercel --cwd website --prod
 
 ## APKs als GitHub Release bereitstellen
 
-Die Download-Knöpfe zeigen auf ein Release mit dem Tag `v1.0.0`. So entsteht es:
+Die Download-Knöpfe zeigen auf ein Release mit dem Tag `v1.1.0`. So entsteht es:
 
 1. Im Repository auf **Releases → Create a new release**
-2. Bei *Choose a tag* `v1.0.0` eintippen und **Create new tag on publish** wählen
-3. Titel: `Momento 1.0.0`
+2. Bei *Choose a tag* `v1.1.0` eintippen (Version aus der `pubspec.yaml`) und **Create new tag on publish** wählen
+3. Titel: `Momento 1.1.0`
 4. Diese drei Dateien aus `build/app/outputs/flutter-apk/` hineinziehen –
    die Namen müssen unverändert bleiben, sonst stimmen die Links nicht:
    - `app-arm64-v8a-release.apk`

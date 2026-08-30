@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/app_info.dart';
 import '../../core/l10n/app_texts.dart';
 import '../../core/momento_controller.dart';
 import '../../core/theme/momento_colors.dart';
@@ -319,7 +320,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
           Center(
             child: Text(
-              '${t.version} 1.0.0',
+              '${t.version} $momentoVersion',
               style: theme.textTheme.labelSmall,
             ),
           ),

@@ -69,7 +69,7 @@ Die Namen erscheinen auch in der App selbst unter **Menü → Über Momento**.
 | Abbildung 1 (Startansicht) | 1:1 nachgebaut; das Originalbild ist in der App unter «Über Momento» zu sehen |
 | Abb. 4 / 5 (Logo, App-Icon) | [`assets/brand/`](assets/brand) – aus dem PDF extrahiert und freigestellt |
 
-### Zwei bewusste Abweichungen
+### Drei bewusste Abweichungen
 
 **1. Kein Ausweisfoto bei der Registrierung.**
 Der Businessplan sieht in Kapitel 7.2 ein Foto der ID vor. Ein Ausweis
@@ -83,6 +83,16 @@ Der Businessplan sagt, Düfte würden «automatisch übertragen». Kein
 Smartphone besitzt einen Geruchssensor – das ist technisch nicht möglich.
 Momento löst es ehrlich: eine kuratierte Duftpalette mit Intensitätsregler
 plus Freitext. Geräusche dagegen **werden** wirklich aufgenommen.
+
+**3. Bilder ja, Videos nein.**
+Der Businessplan spricht im Abschnitt «Sinn und Zweck» von «Bilder oder
+Videos». Videos hätten zwei Dinge gebrochen, die heute funktionieren: Die
+Sicherung baut das ZIP-Archiv vollständig im Arbeitsspeicher auf – das
+trägt bei Fotos, bei Videos nicht mehr. Und die Web-Version legt Medien im
+Browserspeicher ab (rund 5 MB); ein einziges Video sprengt das sofort.
+Videos aufzunehmen wäre also kein zusätzlicher Knopf, sondern ein Umbau
+der Datenhaltung. Diese Entscheidung wurde bewusst getroffen und nicht
+vergessen.
 
 ---
 
@@ -144,7 +154,7 @@ fremden Audiodateien nötig.
 flutter test
 ```
 
-58 Tests in vier Gruppen:
+59 Tests in fünf Gruppen:
 
 - [`test/memory_search_test.dart`](test/memory_search_test.dart) – die Suche:
   findet sie eine Erinnerung über den Ort, über einen Oberbegriff, der nirgends
@@ -155,6 +165,8 @@ flutter test
 - [`test/backup_test.dart`](test/backup_test.dart) – die Sicherung: Überstehen
   Erinnerungen, Alben und Tonaufnahmen den Weg aus der App heraus und wieder
   hinein? Wird eine fremde Datei abgelehnt?
+- [`test/app_info_test.dart`](test/app_info_test.dart) – wacht darüber, dass die
+  Versionsnummer im Code und in der `pubspec.yaml` nicht auseinanderlaufen.
 - [`test/screens_test.dart`](test/screens_test.dart) – rendert jeden Bildschirm
   und legt ihn als Bild unter [`test/goldens/`](test/goldens) ab:
 
