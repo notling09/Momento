@@ -62,6 +62,32 @@ Beim ersten Mal fragt Vercel nach Anmeldung und Projektname. Für die
 npx vercel --cwd website --prod
 ```
 
+## Die Web-App veröffentlichen
+
+Auf der Website führt der erste Knopf zur App im Browser – das ist der einzige
+Weg für iPhone-Nutzerinnen. Die Web-App ist ein **eigenes Vercel-Projekt** und
+liegt nicht im Repository: Der Build ist 44 MB gross, davon 25 MB
+Flutter-Grafikengine. Solche Dateien gehören nicht in die Versionsverwaltung.
+
+```bash
+flutter build web --release
+npx vercel --cwd build/web --prod
+```
+
+Veröffentlicht unter **https://momento-app-dun.vercel.app** (Vercel-Projekt
+`momento-app`). Diese Adresse steht in `index.html` an zwei Stellen, beide sind
+mit einem Kommentar markiert:
+
+```
+<!-- WEB-APP-ADRESSE: ... -->
+```
+
+Vercel gibt beim Deploy zwei Adressen aus. Die unter *Production* ist bei jedem
+Deploy eine andere – gebraucht wird die unter **Aliased**, die bleibt gleich.
+
+Nach jeder Änderung an der App muss die Web-App neu veröffentlicht werden,
+sonst zeigt der Browser-Knopf auf eine alte Fassung.
+
 ## APKs als GitHub Release bereitstellen
 
 Die Download-Knöpfe zeigen auf ein Release mit dem Tag `v1.1.0`. So entsteht es:

@@ -23,6 +23,13 @@ class GoldenHarness {
 
   static const size = Size(390, 844);
 
+  /// Ein festes "heute" fuer alle Bilder.
+  ///
+  /// Ohne das wuerden die Vergleichsbilder jeden Tag fehlschlagen: Auf der
+  /// Startseite und in der Liste stehen Datumsangaben, die sich am aktuellen
+  /// Tag orientieren.
+  static final fixedNow = DateTime(2026, 8, 30, 19, 0);
+
   /// Baut eine App mit deutschen Beispiel-Erinnerungen und einem angemeldeten
   /// Konto auf.
   static Future<GoldenHarness> start({String userName = 'Sara'}) async {
@@ -35,7 +42,7 @@ class GoldenHarness {
     _mockAudioPlayers();
     SharedPreferences.setMockInitialValues({});
 
-    final controller = await MomentoController.bootstrap();
+    final controller = await MomentoController.bootstrap(clock: () => fixedNow);
 
     // Auf dem Testrechner ist die Systemsprache Englisch. Fuer die Bilder
     // wollen wir aber die deutschen Beispieltexte sehen.

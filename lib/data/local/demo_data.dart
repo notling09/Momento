@@ -22,8 +22,8 @@ abstract final class DemoData {
     required AlbumRepository albums,
     required MediaStore media,
     required bool english,
+    required DateTime now,
   }) async {
-    final now = DateTime.now();
 
     DateTime at(int yearsAgo, int month, int day, int hour, int minute) =>
         DateTime(now.year - yearsAgo, month, day, hour, minute);

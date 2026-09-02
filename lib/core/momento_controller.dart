@@ -28,17 +28,26 @@ class MomentoController extends ChangeNotifier {
     required AuthRepository auth,
     required SettingsRepository settings,
     required MediaStore media,
+    required DateTime Function() clock,
   })  : _memoryRepository = memories,
         _albumRepository = albums,
         _authRepository = auth,
         _settingsRepository = settings,
-        _mediaStore = media;
+        _mediaStore = media,
+        _clock = clock;
 
   final MemoryRepository _memoryRepository;
   final AlbumRepository _albumRepository;
   final AuthRepository _authRepository;
   final SettingsRepository _settingsRepository;
   final MediaStore _mediaStore;
+
+  /// Die Uhr der App. Normalerweise die echte Zeit; in Tests eine feste, damit
+  /// Bildvergleiche nicht jeden Tag ein anderes Datum zeigen.
+  final DateTime Function() _clock;
+
+  /// Das "heute" der App - Grundlage für Flashbacks und neue Erinnerungen.
+  DateTime now() => _clock();
 
   static const _uuid = Uuid();
 
@@ -59,7 +68,12 @@ class MomentoController extends ChangeNotifier {
   MediaStore get mediaStore => _mediaStore;
 
   /// Baut alle Bausteine auf und laedt den gespeicherten Zustand.
-  static Future<MomentoController> bootstrap() async {
+  ///
+  /// [clock] gibt es nur fuer Tests: damit laesst sich ein festes "heute"
+  /// setzen, sodass die Bildvergleiche nicht vom Kalender abhaengen.
+  static Future<MomentoController> bootstrap({
+    DateTime Function() clock = DateTime.now,
+  }) async {
     final db = await LocalDatabase.open();
     final media = await MediaStore.open();
     final controller = MomentoController._(
@@ -68,6 +82,7 @@ class MomentoController extends ChangeNotifier {
       auth: LocalAuthRepository(db),
       settings: LocalSettingsRepository(db),
       media: media,
+      clock: clock,
     );
     await controller._load();
     return controller;
@@ -193,7 +208,7 @@ class MomentoController extends ChangeNotifier {
       place: draft.place,
       people: draft.people,
       happenedAt: draft.happenedAt,
-      createdAt: DateTime.now(),
+      createdAt: now(),
       feeling: draft.feeling,
       photo: draft.photo,
       coverScene: draft.coverScene,
@@ -291,8 +306,8 @@ class MomentoController extends ChangeNotifier {
       description: description,
       memoryIds: memoryIds,
       createdAt: id == null
-          ? DateTime.now()
-          : (albumById(id)?.createdAt ?? DateTime.now()),
+          ? now()
+          : (albumById(id)?.createdAt ?? now()),
     );
     await _albumRepository.upsert(album);
     await _refresh();
@@ -320,7 +335,7 @@ class MomentoController extends ChangeNotifier {
     if (_syncing) return 0;
     final pending = pendingMemories;
     if (pending.isEmpty) {
-      await _persistSettings(_settings.copyWith(lastSync: DateTime.now()));
+      await _persistSettings(_settings.copyWith(lastSync: now()));
       return 0;
     }
 
@@ -339,7 +354,7 @@ class MomentoController extends ChangeNotifier {
     }
 
     _syncing = false;
-    await _persistSettings(_settings.copyWith(lastSync: DateTime.now()));
+    await _persistSettings(_settings.copyWith(lastSync: now()));
     await _refresh();
     return done;
   }
@@ -380,6 +395,7 @@ class MomentoController extends ChangeNotifier {
       english: (_settings.locale?.languageCode ??
               WidgetsBinding.instance.platformDispatcher.locale.languageCode) ==
           'en',
+      now: now(),
     );
     if (persistFlag) {
       _settings = _settings.copyWith(demoSeeded: true);

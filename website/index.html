@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Momento – Deine App für Erinnerungen und besondere Momente</title>
-<meta name="description" content="Momento hält nicht nur Bilder fest, sondern auch Düfte und Geräusche. Kostenlos für Android herunterladen.">
+<meta name="description" content="Momento hält nicht nur Bilder fest, sondern auch Düfte und Geräusche. Kostenlos im Browser öffnen oder als Android-App laden.">
 <meta name="theme-color" content="#F7A3BE">
 <link rel="icon" href="brand/icon.png">
 <link rel="apple-touch-icon" href="brand/icon.png">
@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="Momento">
 <meta property="og:locale" content="de_CH">
 <meta property="og:title" content="Momento – Dein Leben. Deine Erinnerungen.">
-<meta property="og:description" content="Eine App, die nicht nur Bilder festhält, sondern auch Düfte und Geräusche. Kostenlos für Android.">
+<meta property="og:description" content="Eine App, die nicht nur Bilder festhält, sondern auch Düfte und Geräusche. Im Browser öffnen oder für Android laden.">
 <meta property="og:image" content="https://momento-eta-six.vercel.app/brand/icon.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
@@ -511,12 +511,13 @@
         Tonaufnahme: So bleibt ein Augenblick wirklich.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/notling09/Momento/releases/download/v1.1.0/app-arm64-v8a-release.apk">
-          ↓ Für Android laden
+        <!-- WEB-APP-ADRESSE: hier und weiter unten im Download-Bereich eintragen -->
+        <a class="btn btn-primary" href="https://momento-app-dun.vercel.app">
+          Im Browser öffnen
         </a>
-        <a class="btn btn-ghost" href="#screens">Screenshots ansehen</a>
+        <a class="btn btn-ghost" href="#download">↓ Für Android laden</a>
       </div>
-      <p class="hero-note">Kostenlos · 19,9 MB · Android 6.0 oder neuer · keine Anmeldung im Netz nötig</p>
+      <p class="hero-note">Kostenlos · ohne Installation im Browser · als App für Android · keine Anmeldung im Netz nötig</p>
     </div>
 
     <figure class="phone" style="margin:0">
@@ -620,17 +621,42 @@
 <section class="download" id="download">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Herunterladen</p>
-      <h2>Momento auf dein Handy holen</h2>
-      <p>Momento ist nicht im Play Store, sondern wird direkt hier heruntergeladen. Das dauert eine Minute.</p>
+      <p class="eyebrow">Loslegen</p>
+      <h2>Zwei Wege zu Momento</h2>
+      <p>Im Browser läuft Momento sofort – auf dem iPhone, auf dem iPad, am Computer. Für Android gibt es zusätzlich eine richtige App.</p>
     </div>
 
     <div class="download-grid">
       <div class="card">
-        <h3>Android</h3>
+        <h3>Im Browser – für iPhone und alle anderen</h3>
+        <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:1.2rem">
+          Nichts installieren, nichts erlauben: Link öffnen und loslegen.
+          Funktioniert auf jedem Gerät mit einem aktuellen Browser.
+        </p>
+        <!-- WEB-APP-ADRESSE: dieselbe wie im Kopfbereich -->
+        <a class="btn btn-solid" href="https://momento-app-dun.vercel.app" style="width:100%;justify-content:center">
+          Momento im Browser öffnen
+        </a>
+        <div class="hint" style="margin-top:1.2rem">
+          <strong>Tipp fürs iPhone:</strong> In Safari unten auf das Teilen-Symbol
+          tippen und <em>Zum Home-Bildschirm</em> wählen. Dann bekommt Momento ein
+          eigenes Icon und öffnet sich ohne Adressleiste – wie eine App.
+        </div>
+        <div class="hint">
+          <strong>Gut zu wissen:</strong> Im Browser liegen die Erinnerungen im
+          Speicher des Browsers. Zum Ausprobieren ist das ideal, zum langfristigen
+          Aufbewahren weniger: Wer den Browserspeicher löscht oder die Seite sehr
+          lange nicht öffnet, kann sie verlieren. Deshalb gibt es in den
+          Einstellungen eine <strong>Sicherung</strong> – eine Datei mit allem
+          drin, die du jederzeit wieder einlesen kannst.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Als App für Android</h3>
         <p style="color:var(--ink-soft);font-size:.95rem">
-          Fast jedes heutige Handy braucht die erste Datei. Die anderen zwei
-          sind für ältere Geräte und Emulatoren.
+          Die vollständige Fassung: Kamera, Mikrofon und Speicher verhalten sich
+          hier so, wie man es von einer App erwartet.
         </p>
         <ul class="variants">
           <li>
@@ -652,22 +678,14 @@
             </a>
           </li>
         </ul>
-        <div class="hint">
-          <strong>iPhone?</strong> Der Code für iOS ist fertig, aber Apple verlangt
-          zum Erstellen einer iPhone-App einen Mac. Sobald einer zur Verfügung
-          steht, gibt es Momento auch dort.
-        </div>
-      </div>
 
-      <div class="card">
-        <h3>So installierst du sie</h3>
+        <h4 style="font-family:Quicksand,sans-serif;font-size:.95rem;font-weight:700;margin:1.6rem 0 .8rem">So installierst du sie</h4>
         <!-- Der Text jedes Schrittes braucht einen eigenen Container: sonst
              wird jedes Inline-Element zu einer eigenen Gitterzelle. -->
         <ol class="steps">
-          <li><span>Tippe oben auf die empfohlene Datei. Der Browser fragt, ob du sie behalten willst – ja.</span></li>
-          <li><span>Öffne die heruntergeladene Datei. Android fragt einmalig, ob dein Browser Apps installieren darf. Erlauben.</span></li>
+          <li><span>Auf die empfohlene Datei tippen. Der Browser fragt, ob du sie behalten willst – ja.</span></li>
+          <li><span>Die heruntergeladene Datei öffnen. Android fragt einmalig, ob dein Browser Apps installieren darf. Erlauben.</span></li>
           <li><span>Falls eine Warnung «unbekannte App» erscheint: auf <em>Trotzdem installieren</em> tippen. Das kommt bei jeder App ausserhalb des Play Stores.</span></li>
-          <li><span>Momento öffnen, kurze Einführung durchklicken, Konto anlegen – Mail und Passwort bleiben auf dem Gerät.</span></li>
         </ol>
         <div class="hint">
           Beim ersten Start sind einige Beispiel-Erinnerungen da, damit du sofort
@@ -749,15 +767,15 @@
         </span>
       </div>
       <nav class="foot-links">
-        <a href="#download">Herunterladen</a>
+        <a href="#download">Loslegen</a>
         <a href="#screens">Screenshots</a>
         <a href="https://github.com/notling09/Momento">Quellcode auf GitHub</a>
       </nav>
     </div>
 
     <p class="foot-note">
-      Momento ist mit Flutter gebaut und läuft aus einem Quellcode auf Android,
-      iOS und im Browser. Alle Daten bleiben auf dem Gerät; die App braucht
+      Momento ist mit Flutter gebaut und läuft aus einem Quellcode im Browser und
+      als Android-App. Alle Daten bleiben auf dem Gerät; die App braucht
       kein Internet. Logo, Farbwelt und Funktionsumfang stammen aus dem
       Businessplan «Momento AG» (GBMc, 10. Mai 2026). Version 1.1.0.
     </p>

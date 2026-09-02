@@ -1,6 +1,7 @@
 # Momento
 
-**[momento-eta-six.vercel.app](https://momento-eta-six.vercel.app)** – Download und Übersicht
+**[momento-eta-six.vercel.app](https://momento-eta-six.vercel.app)** – Übersicht und Download
+**[momento-app-dun.vercel.app](https://momento-app-dun.vercel.app)** – die App direkt im Browser (auch auf dem iPhone)
 
 **Deine App für Erinnerungen und besondere Momente**
 *Dein Leben. Deine Erinnerungen.*
@@ -176,6 +177,11 @@ flutter test --update-goldens test/screens_test.dart
 
 So lässt sich das Aussehen der App prüfen, ohne ein Gerät anzuschliessen –
 inklusive Dark-Mode und englischer Oberfläche.
+
+Die Uhr der App ist dabei eine Abhängigkeit wie jede andere: Der Controller
+bekommt sie beim Start übergeben, und die Bildvergleiche setzen ein festes
+«heute». Sonst würden sie an jedem neuen Tag fehlschlagen, weil auf der
+Startseite Datumsangaben stehen.
 
 ---
 

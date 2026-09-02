@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
     final memories = controller.memories;
     final albums = controller.albums;
 
-    final today = DateTime.now();
+    final today = controller.now();
     final flashbacks = memories
         .where((m) => m.anniversaryYears(today) != null)
         .toList()
