@@ -74,7 +74,7 @@ flutter build web --release
 npx vercel --cwd build/web --prod
 ```
 
-Veröffentlicht unter **https://momento-app-dun.vercel.app** (Vercel-Projekt
+Veröffentlicht unter **https://app.momento.niltonbc.ch** (Vercel-Projekt
 `momento-app`). Diese Adresse steht in `index.html` an zwei Stellen, beide sind
 mit einem Kommentar markiert:
 
@@ -108,8 +108,14 @@ Bei einer neuen Version: neues Release mit neuem Tag anlegen und in
 
 ## Veröffentlicht unter
 
-https://momento-eta-six.vercel.app
+https://momento.niltonbc.ch
 
-Die Adresse steht in `index.html` bei den `og:`-Angaben. Wenn du der Seite
-später eine eigene Domain gibst, dort an vier Stellen anpassen (canonical,
-og:url, og:image, twitter:image).
+Die Domain liegt bei Infomaniak, die DNS-Zone zeigt per CNAME auf Vercel.
+Jedes Vercel-Projekt bekommt dabei ein **eigenes** CNAME-Ziel – nicht das
+gleiche für beide.
+
+Die Adresse steht in `index.html` an vier Stellen: `canonical`, `og:url`,
+`og:image` und `twitter:image`.
+
+Die alten Adressen `momento-eta-six.vercel.app` und `momento-app-dun.vercel.app`
+bleiben zusätzlich erreichbar.

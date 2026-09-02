@@ -1,7 +1,7 @@
 # Momento
 
-**[momento-eta-six.vercel.app](https://momento-eta-six.vercel.app)** – Übersicht und Download
-**[momento-app-dun.vercel.app](https://momento-app-dun.vercel.app)** – die App direkt im Browser (auch auf dem iPhone)
+**[momento.niltonbc.ch](https://momento.niltonbc.ch)** – Übersicht und Download
+**[app.momento.niltonbc.ch](https://app.momento.niltonbc.ch)** – die App direkt im Browser (auch auf dem iPhone)
 
 **Deine App für Erinnerungen und besondere Momente**
 *Dein Leben. Deine Erinnerungen.*
